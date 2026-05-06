@@ -2,6 +2,10 @@ import SVGByteCode from '@/Helper/SVGByteCode'
 import { useRef, useEffect, useState } from 'react'
 import { Animated } from 'react-native'
 import { SvgUri } from 'react-native-svg'
+import { NavigationProp } from '@react-navigation/native'
+import { RootStackParamList } from '@/Types/types'
+
+type OnboardingScreenNavigationProp = NavigationProp<RootStackParamList, 'onboardingScreen'>
 
 export interface OnboardingStep {
   title: string
@@ -75,7 +79,13 @@ export const useOnboarding = () => {
   const skip = () => {
     setStep(onboardingSteps.length - 1)
   }
-
+ const handleGetStarted = (navigation: OnboardingScreenNavigationProp) => {
+    if (step === onboardingSteps.length - 1) {
+      navigation.navigate('loginScreen')
+    } else {
+      next()
+    }
+  }
   const currentStepData = onboardingSteps[step]
 
   return {
@@ -87,5 +97,6 @@ export const useOnboarding = () => {
     floatAnim,
     glowAnim,
     onboardingSteps,
+    handleGetStarted,
   }
 }

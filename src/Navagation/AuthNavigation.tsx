@@ -6,6 +6,7 @@ import { View, Text } from 'react-native'
 
 import type {RootStackParamList} from '@/Types/types'
 import onboardingScreen from '@/features/Auth/Onboarding/onboardingScreen'
+import loginScreen from '@/features/Auth/Login/loginScreen'
 
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -13,6 +14,7 @@ export default () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}   >
       <Stack.Screen name="onboardingScreen" component={onboardingScreen}/>
+      <Stack.Screen name="loginScreen" component={loginScreen}/>
     </Stack.Navigator>
   )
 }

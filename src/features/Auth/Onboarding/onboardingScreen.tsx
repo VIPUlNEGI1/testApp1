@@ -12,21 +12,25 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useOnboarding } from '@/features/Auth/Onboarding/hooks/useOnboarding'
 import Colors from '@/Theme/Colors'
 import { SvgFromXml } from 'react-native-svg'
+import { NavigationProp } from '@react-navigation/native'
+import { RootStackParamList } from '@/Types/types'
 
 import SVGByteCode from '@/Helper/SVGByteCode'
-
-export default function OnboardingScreen() {
+ 
+export default function OnboardingScreen({ navigation }: { navigation: NavigationProp<RootStackParamList, 'onboardingScreen'> }) {
   const insets = useSafeAreaInsets()
   const {
     step,
     next,
     skip,
+    handleGetStarted,
     currentStepData,
     floatAnim,
     glowAnim,
     onboardingSteps,
   } = useOnboarding()
 
+ 
   return (
     <LinearGradient
       colors={Colors.primaryGradient}
@@ -101,8 +105,8 @@ export default function OnboardingScreen() {
             colors={Colors.buttonGradient}
             style={{ borderRadius: 30 }}
           >
-            <TouchableOpacity style={styles.button} onPress={next}>
-              <Text style={styles.buttonText}>Continue </Text>
+            <TouchableOpacity style={styles.button} onPress={() => handleGetStarted(navigation)}>
+              <Text style={styles.buttonText}>{step === onboardingSteps.length - 1 ? 'Get Started' : 'Continue'}</Text>
             </TouchableOpacity>
           </LinearGradient>
         </Animated.View>
