@@ -1,16 +1,16 @@
-import SVGByteCode from '@/Helper/SVGByteCode'
-import { useRef, useEffect, useState } from 'react'
-import { Animated } from 'react-native'
-import { SvgUri } from 'react-native-svg'
-import { NavigationProp } from '@react-navigation/native'
-import { RootStackParamList } from '@/Types/types'
+import SVGByteCode from '@/Helpers/SVGByteCode';
+import { useRef, useEffect, useState } from 'react';
+import { Animated } from 'react-native';
+import { SvgUri } from 'react-native-svg';
+import { NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '@/Types/types';
 
-type OnboardingScreenNavigationProp = NavigationProp<RootStackParamList, 'onboardingScreen'>
+type OnboardingScreenNavigationProp = NavigationProp<RootStackParamList, 'onboardingScreen'>;
 
 export interface OnboardingStep {
-  title: string
-  subtitle: string
-  svg: string
+  title: string;
+  subtitle: string;
+  svg: string;
 }
 
 export const onboardingSteps: OnboardingStep[] = [
@@ -29,12 +29,14 @@ export const onboardingSteps: OnboardingStep[] = [
     subtitle: 'Stay motivated with insights & achievements.',
     svg: SVGByteCode.Traker,
   },
-]
+];
 
 export const useOnboarding = () => {
-  const [step, setStep] = useState(0)
-  const floatAnim = useRef(new Animated.Value(0)).current
-  const glowAnim = useRef(new Animated.Value(0)).current
+  const [step, setStep] = useState(0);
+  const floatAnim = useRef(new Animated.Value(0)).current;
+  const glowAnim = useRef(new Animated.Value(0)).current;
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const slideAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     // Floating animation
@@ -50,8 +52,8 @@ export const useOnboarding = () => {
           duration: 1800,
           useNativeDriver: true,
         }),
-      ])
-    ).start()
+      ]),
+    ).start();
 
     // Glow pulse animation
     Animated.loop(
@@ -66,27 +68,60 @@ export const useOnboarding = () => {
           duration: 1200,
           useNativeDriver: false,
         }),
-      ])
-    ).start()
-  }, [])
+      ]),
+    ).start();
+  }, []);
+
+  const animateStepChange = (newStep: number) => {
+    // Fade out and slide left
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: -30,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start(() => {
+      // Change step
+      setStep(newStep);
+
+      // Fade in and slide right
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    });
+  };
 
   const next = () => {
     if (step < onboardingSteps.length - 1) {
-      setStep(step + 1)
+      animateStepChange(step + 1);
     }
-  }
+  };
 
   const skip = () => {
-    setStep(onboardingSteps.length - 1)
-  }
- const handleGetStarted = (navigation: OnboardingScreenNavigationProp) => {
+    animateStepChange(onboardingSteps.length - 1);
+  };
+  const handleGetStarted = (navigation: OnboardingScreenNavigationProp) => {
     if (step === onboardingSteps.length - 1) {
-      navigation.navigate('loginScreen')
+      navigation.navigate('loginScreen');
     } else {
-      next()
+      next();
     }
-  }
-  const currentStepData = onboardingSteps[step]
+  };
+  const currentStepData = onboardingSteps[step];
 
   return {
     step,
@@ -96,7 +131,9 @@ export const useOnboarding = () => {
     currentStepData,
     floatAnim,
     glowAnim,
+    fadeAnim,
+    slideAnim,
     onboardingSteps,
     handleGetStarted,
-  }
-}
+  };
+};

@@ -1,14 +1,11 @@
-import SVGByteCode from '@/Helper/SVGByteCode'
-import Colors from '@/Theme/Colors'
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import React from 'react'
-import { SvgFromXml } from 'react-native-svg'
+import SVGByteCode from '@/Helpers/SVGByteCode';
+import Colors from '@/Theme/Colors';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
+import { SvgFromXml } from 'react-native-svg';
 
-
- 
- 
- const Tab = createBottomTabNavigator()
-type TabName = 'Home' | 'Myjobs' | 'Profile' | 'Saved'
+const Tab = createBottomTabNavigator();
+type TabName = 'Home' | 'Myjobs' | 'Profile' | 'Saved';
 
 // const icons: Record<TabName, {active: string; inactive: string}> = {
 //   // Home: {
@@ -29,7 +26,7 @@ type TabName = 'Home' | 'Myjobs' | 'Profile' | 'Saved'
 //   // }
 // }
 
-export default  () =>{
+export default () => {
   return (
     // <Tab.Navigator
     //   screenOptions={({route}) => ({
@@ -65,5 +62,5 @@ export default  () =>{
 
     // </Tab.Navigator>
     <></>
-  )
-}
+  );
+};

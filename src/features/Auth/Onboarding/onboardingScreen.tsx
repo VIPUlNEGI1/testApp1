@@ -1,24 +1,21 @@
-import React from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Animated,
-  ScrollView,
-} from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useOnboarding } from '@/features/Auth/Onboarding/hooks/useOnboarding'
-import Colors from '@/Theme/Colors'
-import { SvgFromXml } from 'react-native-svg'
-import { NavigationProp } from '@react-navigation/native'
-import { RootStackParamList } from '@/Types/types'
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Animated, ScrollView } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useOnboarding } from '@/features/Auth/Onboarding/hooks/useOnboarding';
+import Colors from '@/Theme/Colors';
+import { SvgFromXml } from 'react-native-svg';
+import { NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '@/Types/types';
 
-import SVGByteCode from '@/Helper/SVGByteCode'
- 
-export default function OnboardingScreen({ navigation }: { navigation: NavigationProp<RootStackParamList, 'onboardingScreen'> }) {
-  const insets = useSafeAreaInsets()
+import SVGByteCode from '@/Helpers/SVGByteCode';
+
+export default function OnboardingScreen({
+  navigation,
+}: {
+  navigation: NavigationProp<RootStackParamList, 'onboardingScreen'>;
+}) {
+  const insets = useSafeAreaInsets();
   const {
     step,
     next,
@@ -27,19 +24,28 @@ export default function OnboardingScreen({ navigation }: { navigation: Navigatio
     currentStepData,
     floatAnim,
     glowAnim,
+    fadeAnim,
+    slideAnim,
     onboardingSteps,
-  } = useOnboarding()
+  } = useOnboarding();
 
- 
   return (
     <LinearGradient
       colors={Colors.primaryGradient}
       style={[styles.container, { paddingTop: insets.top }]}
     >
       {/* HEADER */}
+
       <View style={styles.header}>
         <View style={styles.logoBox}>
-          <SvgFromXml xml={SVGByteCode.Book} width={25} height={25} />
+          <LinearGradient
+            colors={['#60A5FA', '#3B82F6', '#1D4ED8']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.logoGlow}
+          >
+            <SvgFromXml xml={SVGByteCode.Book} width={25} height={25} />
+          </LinearGradient>
         </View>
         <Text style={styles.brand}>NexEduHub</Text>
       </View>
@@ -53,41 +59,32 @@ export default function OnboardingScreen({ navigation }: { navigation: Navigatio
         <Animated.View
           style={{
             transform: [{ translateY: floatAnim }],
+            opacity: fadeAnim,
           }}
         >
           <View style={styles.iconWrapper}>
-            <LinearGradient
-              colors={Colors.iconGradient}
-              style={styles.iconInner}
-            >
+            <LinearGradient colors={Colors.iconGradient} style={styles.iconInner}>
               <SvgFromXml xml={onboardingSteps[step].svg} width={45} height={45} />
-     
-              {/* <Text style={styles.icon}>
-                {onboardingSteps[step].image}
-              </Text> */}
             </LinearGradient>
           </View>
         </Animated.View>
 
         {/* TEXT */}
-        <Text style={styles.title}>
-          {onboardingSteps[step].title}
-        </Text>
+        <Animated.View
+          style={{
+            opacity: fadeAnim,
+            transform: [{ translateX: slideAnim }],
+          }}
+        >
+          <Text style={styles.title}>{onboardingSteps[step].title}</Text>
 
-        <Text style={styles.subtitle}>
-          {onboardingSteps[step].subtitle}
-        </Text>
-        <View style={styles.stepper}>
-          {onboardingSteps.map((_, i) => (
-            <View
-              key={i}
-              style={[
-                styles.dot,
-                i === step && styles.activeDot,
-              ]}
-            />
-          ))}
-        </View>
+          <Text style={styles.subtitle}>{onboardingSteps[step].subtitle}</Text>
+          <View style={styles.stepper}>
+            {onboardingSteps.map((_, i) => (
+              <View key={i} style={[styles.dot, i === step && styles.activeDot]} />
+            ))}
+          </View>
+        </Animated.View>
       </ScrollView>
       <View style={[styles.footer, { paddingBottom: insets.bottom + 10 }]}>
         <Animated.View
@@ -101,12 +98,11 @@ export default function OnboardingScreen({ navigation }: { navigation: Navigatio
             },
           ]}
         >
-          <LinearGradient
-            colors={Colors.buttonGradient}
-            style={{ borderRadius: 30 }}
-          >
+          <LinearGradient colors={Colors.buttonGradient} style={{ borderRadius: 30 }}>
             <TouchableOpacity style={styles.button} onPress={() => handleGetStarted(navigation)}>
-              <Text style={styles.buttonText}>{step === onboardingSteps.length - 1 ? 'Get Started' : 'Continue'}</Text>
+              <Text style={styles.buttonText}>
+                {step === onboardingSteps.length - 1 ? 'Get Started' : 'Continue'}
+              </Text>
             </TouchableOpacity>
           </LinearGradient>
         </Animated.View>
@@ -116,7 +112,7 @@ export default function OnboardingScreen({ navigation }: { navigation: Navigatio
         </TouchableOpacity>
       </View>
     </LinearGradient>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -194,7 +190,7 @@ const styles = StyleSheet.create({
   iconWrapper: {
     padding: 25,
     borderRadius: 35,
-    backgroundColor: 'rgba(109, 40, 217, 0.15)',
+    backgroundColor: 'rgba(66, 64, 72, 0.38)',
     marginBottom: 40,
 
     shadowColor: Colors.shadow,
@@ -244,6 +240,8 @@ const styles = StyleSheet.create({
 
   stepper: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 30,
   },
 
@@ -256,10 +254,10 @@ const styles = StyleSheet.create({
   },
 
   activeDot: {
-    width: 22,
+    width: 30,
     height: 6,
     borderRadius: 3,
-    backgroundColor: Colors.blue,
+    backgroundColor: Colors.brandLightI,
 
     shadowColor: Colors.shadowBlue,
     shadowOpacity: 1,
@@ -308,4 +306,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: 14,
   },
-})
+
+  headerGlow: {
+    borderRadius: 20,
+    padding: 3,
+    backgroundColor: 'rgba(37, 99, 235, 0.15)',
+    shadowColor: Colors.shadowBlue,
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 12,
+    marginHorizontal: 20,
+  },
+
+  logoGlow: {
+    width: 50,
+    height: 50,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: Colors.shadowBlue,
+    shadowOpacity: 0.6,
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 10,
+  },
+});

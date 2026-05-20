@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -7,429 +7,390 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
-  Dimensions,
-} from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import Colors from '@/Theme/Colors'
+  Animated,
+} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '@/Types/types';
+import Colors from '@/Theme/Colors';
+import TabBar, { TabItem } from '@/Component/TabBar';
+import Button from '@/Component/Button';
+import { SvgFromXml } from 'react-native-svg';
+import SVGByteCode from '@/Helpers/SVGByteCode';
+import { CountryPicker } from 'react-native-country-codes-picker';
+import { useLoginLogic, TabType } from './hooks/useLoginLogic';
+import { useTabAnimation } from './hooks/useTabAnimation';
 
-const { width, height } = Dimensions.get('window')
+export default function LoginScreen({
+  navigation,
+}: {
+  navigation: StackNavigationProp<RootStackParamList>;
+}) {
+  const insets = useSafeAreaInsets();
+  const {
+    activeTab,
+    email,
+    password,
+    showPassword,
+    phoneNumber,
+    otpCode,
+    countryCode,
+    callingCode,
+    showCountryPicker,
+    setEmail,
+    setPassword,
+    setShowPassword,
+    setPhoneNumber,
+    setOtpCode,
+    setCountryCode,
+    setCallingCode,
+    setShowCountryPicker,
+    handleLogin,
+    switchTab,
+  } = useLoginLogic(navigation);
 
-type TabType = 'student' | 'teacher' | 'parent'
+  const { animateTabSwitch, animatedStyle } = useTabAnimation();
 
-export default function LoginScreen() {
-  const insets = useSafeAreaInsets()
-  const [activeTab, setActiveTab] = useState<TabType>('student')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const tabs: TabItem[] = [
+    { id: 'Phone/OTP', name: 'Phone/OTP' },
+    { id: 'Email/Password', name: 'Email' },
+  ];
 
-  const handleLogin = () => {
-    console.log('Login attempt:', { activeTab, email, password })
-  }
-
-  const renderStudentLogin = () => (
-    <View style={styles.loginForm}>
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Email Address</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your email"
-          placeholderTextColor={Colors.textMuted}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
-
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Password</Text>
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={[styles.input, { flex: 1 }]}
-            placeholder="Enter your password"
-            placeholderTextColor={Colors.textMuted}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity
-            style={styles.eyeButton}
-            onPress={() => setShowPassword(!showPassword)}
-          >
-            <Text style={styles.eyeIcon}>{showPassword ? '👁️' : '👁️‍🗨️'}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Sign In</Text>
-      </TouchableOpacity>
-
-      <View style={styles.divider}>
-        <View style={styles.dividerLine} />
-        <Text style={styles.dividerText}>OR</Text>
-        <View style={styles.dividerLine} />
-      </View>
-
-      <View style={styles.socialButtons}>
-        <TouchableOpacity style={styles.socialButton}>
-          <Text style={styles.socialButtonText}>📱 Continue with Phone</Text>
+  const renderPhoneForm = () => (
+    <View style={styles.form}>
+      <Text style={styles.label}>Phone Number</Text>
+      <View style={styles.phoneInputContainer}>
+        <TouchableOpacity style={styles.countryCode} onPress={() => setShowCountryPicker(true)}>
+          <Text style={styles.countryCodeText}>{callingCode}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.socialButton}>
-          <Text style={styles.socialButtonText}>🌐 Continue with Google</Text>
+        <TextInput
+          style={styles.phoneInput}
+          placeholder="98765 43210"
+          placeholderTextColor={Colors.textMuted}
+          keyboardType="phone-pad"
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+        />
+      </View>
+
+      <Text style={styles.label}>OTP Code</Text>
+      <View style={styles.passwordBox}>
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          {showPassword ? (
+            <SvgFromXml xml={SVGByteCode.LockOpen} width={20} height={20} />
+          ) : (
+            <SvgFromXml xml={SVGByteCode.Lock} width={20} height={20} />
+          )}
         </TouchableOpacity>
-      </View>
-    </View>
-  )
-
-  const renderTeacherLogin = () => (
-    <View style={styles.loginForm}>
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Teacher ID</Text>
         <TextInput
-          style={styles.input}
-          placeholder="Enter your teacher ID"
+          style={{ flex: 1 }}
+          placeholder="Enter OTP"
           placeholderTextColor={Colors.textMuted}
-          value={email}
-          onChangeText={setEmail}
+          secureTextEntry={!showPassword}
+          keyboardType="number-pad"
+          value={otpCode}
+          onChangeText={setOtpCode}
         />
       </View>
 
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Password</Text>
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={[styles.input, { flex: 1 }]}
-            placeholder="Enter your password"
-            placeholderTextColor={Colors.textMuted}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity
-            style={styles.eyeButton}
-            onPress={() => setShowPassword(!showPassword)}
-          >
-            <Text style={styles.eyeIcon}>{showPassword ? '👁️' : '👁️‍🗨️'}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      <TouchableOpacity style={styles.forgot}>
+        <Text style={styles.forgotText}>Resend OTP?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Sign In</Text>
-      </TouchableOpacity>
+      <Button
+        title="Sign In"
+        onPress={handleLogin}
+        variant="gradient"
+        size="large"
+        style={styles.button}
+      />
     </View>
-  )
+  );
 
-  const renderParentLogin = () => (
-    <View style={styles.loginForm}>
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Email Address</Text>
+  const renderEmailForm = () => (
+    <View style={styles.form}>
+      <Text style={styles.label}>Email ID</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your email"
+        placeholderTextColor={Colors.textMuted}
+        keyboardType="email-address"
+        autoCapitalize="none"
+        value={email}
+        onChangeText={setEmail}
+      />
+
+      <Text style={styles.label}>Password</Text>
+      <View style={styles.passwordBox}>
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          {showPassword ? (
+            <SvgFromXml xml={SVGByteCode.LockOpen} width={20} height={20} />
+          ) : (
+            <SvgFromXml xml={SVGByteCode.Lock} width={20} height={20} />
+          )}
+        </TouchableOpacity>
         <TextInput
-          style={styles.input}
-          placeholder="Enter your email"
+          style={{ flex: 1 }}
+          placeholder="Enter password"
           placeholderTextColor={Colors.textMuted}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
+          secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
 
-      <View style={styles.inputGroup}>
-        <Text style={styles.inputLabel}>Password</Text>
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={[styles.input, { flex: 1 }]}
-            placeholder="Enter your password"
-            placeholderTextColor={Colors.textMuted}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity
-            style={styles.eyeButton}
-            onPress={() => setShowPassword(!showPassword)}
-          >
-            <Text style={styles.eyeIcon}>{showPassword ? '👁️' : '👁️‍🗨️'}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <TouchableOpacity style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      <TouchableOpacity style={styles.forgot}>
+        <Text style={styles.forgotText}>Forgot Password?</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Sign In</Text>
-      </TouchableOpacity>
-
-      <View style={styles.parentNote}>
-        <Text style={styles.parentNoteText}>
-          Parent account allows you to monitor your child's progress and manage their learning journey.
-        </Text>
-      </View>
+      <Button
+        title="Sign In"
+        onPress={handleLogin}
+        variant="gradient"
+        size="large"
+        style={styles.button}
+      />
     </View>
-  )
+  );
+
+  const renderForm = () => {
+    return (
+      <Animated.View style={animatedStyle}>
+        {activeTab === 'Phone/OTP' ? renderPhoneForm() : renderEmailForm()}
+      </Animated.View>
+    );
+  };
 
   return (
-    <LinearGradient
-      colors={Colors.primaryGradient}
-      style={[styles.container, { paddingTop: insets.top }]}
-    >
+    <View style={styles.root}>
       <StatusBar barStyle="light-content" />
-      
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <View style={styles.logoContainer}>
-            <Text style={styles.logo}>📘</Text>
+
+      <LinearGradient
+        colors={Colors.primaryGradient}
+        style={[styles.header, { paddingTop: insets.top }]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <LinearGradient
+          colors={['#60A5FA', '#3B82F6', '#1D4ED8']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.topGlow}
+        />
+
+        <View style={styles.iconWrapper}>
+          <LinearGradient
+            colors={['#60A5FA', '#3B82F6', '#1D4ED8']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.iconBox}
+          >
+            <SvgFromXml xml={SVGByteCode.Book} width={28} height={28} />
+          </LinearGradient>
+        </View>
+
+        <Text style={styles.title}>Welcome back</Text>
+        <Text style={styles.subtitle}>Sign in to continue learning</Text>
+      </LinearGradient>
+
+      <View style={styles.card}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 30 }}
+        >
+          <TabBar
+            backgroundColor={Colors.textSecondary}
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={(id) => animateTabSwitch(id as TabType, () => switchTab(id as TabType))}
+          />
+
+          {renderForm()}
+
+          <View style={styles.signup}>
+            <Text style={styles.signupText}>
+              Don’t have an account? <Text style={styles.signupLink}>Sign Up</Text>
+            </Text>
           </View>
-          <Text style={styles.title}>NexEduHub</Text>
-          <Text style={styles.subtitle}>Welcome back! Please sign in to continue.</Text>
-        </View>
+        </ScrollView>
+      </View>
 
-        {/* TABS */}
-        <View style={styles.tabContainer}>
-          {(['student', 'teacher', 'parent'] as TabType[]).map((tab) => (
-            <TouchableOpacity
-              key={tab}
-              style={[
-                styles.tab,
-                activeTab === tab && styles.activeTab,
-              ]}
-              onPress={() => setActiveTab(tab)}
-            >
-              <Text
-                style={[
-                  styles.tabText,
-                  activeTab === tab && styles.activeTabText,
-                ]}
-              >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* LOGIN FORMS */}
-        <View style={styles.formContainer}>
-          {activeTab === 'student' && renderStudentLogin()}
-          {activeTab === 'teacher' && renderTeacherLogin()}
-          {activeTab === 'parent' && renderParentLogin()}
-        </View>
-
-        {/* SIGN UP LINK */}
-        <View style={styles.signUpContainer}>
-          <Text style={styles.signUpText}>
-            Don't have an account?{' '}
-            <Text style={styles.signUpLink}>Sign Up</Text>
-          </Text>
-        </View>
-      </ScrollView>
-    </LinearGradient>
-  )
+      <CountryPicker
+        show={showCountryPicker}
+        pickerButtonOnPress={(item: any) => {
+          setCountryCode(item.code);
+          setCallingCode(item.dial_code);
+          setShowCountryPicker(false);
+        }}
+        onBackdropPress={() => setShowCountryPicker(false)}
+        inputPlaceholder="Search country"
+        popularCountries={['IN', 'US', 'GB']}
+        lang="en"
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: 20,
-  },
   header: {
-    alignItems: 'center',
-    paddingTop: 40,
-    paddingBottom: 30,
+    height: 200,
+    paddingHorizontal: 20,
+    backgroundColor: '#0B1C3D',
+    overflow: 'hidden',
   },
-  logoContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 20,
-    backgroundColor: Colors.brandLight,
+
+  topGlow: {
+    position: 'absolute',
+    top: -80,
+    right: -80,
+    width: 160,
+    height: 160,
+    borderRadius: 160,
+    opacity: 0.4,
+    shadowColor: '#3B82F6',
+    shadowOpacity: 1,
+    shadowRadius: 120,
+    elevation: 60,
+  },
+
+  iconWrapper: {
+    marginBottom: 5,
+  },
+
+  iconBox: {
+    width: 50,
+    height: 50,
+    borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
-    shadowColor: Colors.shadow,
-    shadowOpacity: 0.3,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 8,
+
+    shadowColor: '#3B82F6',
+    shadowOpacity: 0.8,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 20,
   },
-  logo: {
-    fontSize: 40,
-  },
+
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '800',
-    color: Colors.textPrimary,
-    marginBottom: 8,
+    color: '#E5E7EB',
   },
+
   subtitle: {
     fontSize: 16,
-    color: Colors.textMuted,
-    textAlign: 'center',
-    lineHeight: 22,
+    color: '#9CA3AF',
   },
-  tabContainer: {
-    flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 15,
-    padding: 4,
-    marginBottom: 30,
-  },
-  tab: {
+  root: {
     flex: 1,
-    paddingVertical: 12,
-    alignItems: 'center',
-    borderRadius: 12,
+    backgroundColor: '#fff',
   },
-  activeTab: {
-    backgroundColor: Colors.brand,
+  card: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 20,
   },
-  tabText: {
-    fontSize: 14,
+
+  form: {
+    marginTop: 20,
+  },
+
+  label: {
+    fontSize: 13,
+    fontWeight: '800',
+    marginBottom: 6,
+    color: Colors.mediumGray,
+  },
+
+  input: {
+    backgroundColor: '#f5f5f5',
+    borderRadius: 16,
+    borderWidth: 3,
+    borderColor: Colors.textSecondary,
+    padding: 15,
+    marginBottom: 14,
+  },
+
+  phoneInputContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    marginBottom: 14,
+  },
+
+  countryCode: {
+    fontSize: 16,
     fontWeight: '600',
-    color: Colors.textMuted,
+    color: Colors.mediumGray,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    borderWidth: 3,
+    borderColor: Colors.textSecondary,
   },
-  activeTabText: {
-    color: Colors.textPrimary,
+
+  countryCodeText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: Colors.mediumGray,
   },
-  formContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 20,
-    padding: 24,
+
+  phoneInput: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 16,
+    borderWidth: 3,
+    borderColor: Colors.textSecondary,
+    padding: 15,
+    fontSize: 16,
+    color: '#000',
+  },
+
+  passwordBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 15,
+    paddingHorizontal: 14,
+    marginBottom: 10,
+    gap: 10,
+    borderWidth: 3,
+    borderColor: Colors.textSecondary,
+    paddingVertical: 5,
+  },
+
+  forgot: {
+    alignSelf: 'flex-end',
     marginBottom: 20,
   },
-  loginForm: {
-    gap: 16,
+
+  forgotText: {
+    color: Colors.brandLightI,
+    fontWeight: '800',
+    marginTop: 5,
   },
-  inputGroup: {
-    gap: 8,
+
+  button: {
+    marginBottom: 20,
   },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: Colors.textSecondary,
-    marginBottom: 4,
-  },
-  input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
-    color: Colors.textPrimary,
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-  },
-  eyeButton: {
-    padding: 8,
-  },
-  eyeIcon: {
-    fontSize: 18,
-  },
-  forgotPassword: {
-    alignSelf: 'flex-end',
-    marginVertical: 8,
-  },
-  forgotPasswordText: {
-    color: Colors.brandLight,
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  loginButton: {
-    backgroundColor: Colors.brand,
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 8,
-    shadowColor: Colors.shadow,
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 6,
-  },
-  loginButtonText: {
-    color: Colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  divider: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 20,
-  },
-  dividerLine: {
-    flex: 1,
-    height: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-  },
-  dividerText: {
-    paddingHorizontal: 16,
-    color: Colors.textMuted,
-    fontSize: 14,
-  },
-  socialButtons: {
-    gap: 12,
-  },
-  socialButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  socialButtonText: {
-    color: Colors.textSecondary,
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  parentNote: {
-    backgroundColor: 'rgba(109, 40, 217, 0.1)',
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 16,
-  },
-  parentNoteText: {
-    color: Colors.textMuted,
-    fontSize: 13,
-    lineHeight: 18,
-    textAlign: 'center',
-  },
-  signUpContainer: {
+
+  signup: {
     alignItems: 'center',
     marginTop: 20,
   },
-  signUpText: {
-    color: Colors.textMuted,
-    fontSize: 14,
+
+  signupText: {
+    color: '#777',
   },
-  signUpLink: {
-    color: Colors.brandLight,
-    fontWeight: '600',
+
+  signupLink: {
+    color: Colors.brandLightI,
+    fontWeight: '700',
   },
-})
+});

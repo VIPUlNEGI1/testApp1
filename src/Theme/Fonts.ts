@@ -18,5 +18,5 @@ export default {
   /**
    * Font 500
    */
-  ThemeMedium: 'Inter-Medium' // 500
-}
+  ThemeMedium: 'Inter-Medium', // 500
+};
