@@ -1,5 +1,6 @@
 import HomeScreen from '@/features/Main/Home/HomeScreen';
 import SearchScreen from '@/features/Main/SearchScreen/Searchscreen';
+import ProfileScreen from '@/features/Main/ProfileScreen/ProfileScreen';
 import MyLabiry from '@/features/MyLabiry/MyLabiry';
 import SVGByteCode from '@/Helpers/SVGByteCode';
 
@@ -47,7 +48,7 @@ export const BOTTOM_TABS: TabConfig[] = [
   },
   {
     name: 'Profile',
-    component: MyLabiry,
+    component: ProfileScreen,
     label: 'Profile',
     activeIcon: 'active_profile',
     inactiveIcon: 'Profile',

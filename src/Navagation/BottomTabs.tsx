@@ -104,10 +104,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.brandLightI,
   },
   specialIconWrapper: {
-    width: scale(40),
-    height: scale(40),
+ 
     borderRadius: scale(20),
-    backgroundColor: Colors.blueBatch,
+ 
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: scale(2),
