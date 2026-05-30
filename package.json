@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "pod": "cd ios && RCT_NEW_ARCH_ENABLED=1 pod install",
-    "clean": "echo '🧹 Cleaning Mobile Workspace...'; rm -rf yarn.lock node_modules node_modules ios/build ios/Pods ios/Podfile.lock android/.gradle android/build android/app/build android/a packages/web/node_modules && echo '✅ Mobile workspace cleaned!';",
+    "clean": "powershell -Command \"Write-Host '🧹 Cleaning Mobile Workspace...'; if (Test-Path yarn.lock) { Remove-Item yarn.lock }; if (Test-Path node_modules) { Remove-Item node_modules -Recurse }; if (Test-Path ios/build) { Remove-Item ios/build -Recurse }; if (Test-Path ios/Pods) { Remove-Item ios/Pods -Recurse }; if (Test-Path ios/Podfile.lock) { Remove-Item ios/Podfile.lock }; if (Test-Path android/.gradle) { Remove-Item android/.gradle -Recurse }; if (Test-Path android/build) { Remove-Item android/build -Recurse }; if (Test-Path android/app/build) { Remove-Item android/app/build -Recurse }; if (Test-Path android/app/.cxx) { Remove-Item android/app/.cxx -Recurse }; if (Test-Path packages/web/node_modules) { Remove-Item packages/web/node_modules -Recurse }; Write-Host '✅ Mobile workspace cleaned!'\"",
     "prettier": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "linter": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
     "reset": "watchman watch-del-all && APP_ENV=dev npx  react-native start --reset-cache",
@@ -17,6 +17,8 @@
   "dependencies": {
     "@backpackapp-io/react-native-toast": "^0.15.1",
     "@react-native-community/blur": "^4.4.1",
+    "@react-native-firebase/app": "^24.0.0",
+    "@react-native-firebase/crashlytics": "^24.0.0",
     "@react-native/new-app-screen": "0.85.2",
     "@react-navigation/bottom-tabs": "^7.15.11",
     "@react-navigation/native": "^7.2.2",
@@ -40,7 +42,7 @@
     "react-native-safe-area-context": "^5.7.0",
     "react-native-screens": "^4.24.0",
     "react-native-svg": "^15.15.5",
-    "react-native-worklets": "^0.8.1",
+    "react-native-worklets": "^0.9.1",
     "react-navigation-stack": "react-navigation/stack"
   },
   "devDependencies": {
@@ -59,6 +61,7 @@
     "@types/react": "^19.2.0",
     "@types/react-test-renderer": "^19.1.0",
     "babel-plugin-module-resolver": "^5.0.3",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^8.19.0",
     "husky": "^9.1.7",
     "jest": "^29.6.3",

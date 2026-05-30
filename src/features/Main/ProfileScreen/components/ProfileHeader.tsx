@@ -37,55 +37,12 @@ export default function ProfileHeader({
   plan,
   initials,
 }: ProfileHeaderProps) {
-  const cardAnimation = useSharedValue(0);
-  const statsAnimation = useSharedValue(0);
-
+ 
   useEffect(() => {
-    cardAnimation.value = withSpring(1, {
-      damping: 14,
-    });
-
-    statsAnimation.value = withTiming(1, {
-      duration: 900,
-    });
+   
   }, []);
-
-  const animatedCard = useAnimatedStyle(() => {
-    return {
-      opacity: cardAnimation.value,
-      transform: [
-        {
-          translateY: interpolate(
-            cardAnimation.value,
-            [0, 1],
-            [50, 0]
-          ),
-        },
-        {
-          scale: interpolate(
-            cardAnimation.value,
-            [0, 1],
-            [0.92, 1]
-          ),
-        },
-      ],
-    };
-  });
-
-  const animatedStats = useAnimatedStyle(() => {
-    return {
-      opacity: statsAnimation.value,
-      transform: [
-        {
-          translateY: interpolate(
-            statsAnimation.value,
-            [0, 1],
-            [40, 0]
-          ),
-        },
-      ],
-    };
-  });
+ 
+ 
 
   return (
     <LinearGradient
@@ -99,7 +56,7 @@ export default function ProfileHeader({
       <View style={styles.glowBottom} />
 
       {/* Profile Card */}
-      <Animated.View style={[styles.profileCard, animatedCard]}>
+      <Animated.View style={[styles.profileCard, ]}>
         <LinearGradient
           colors={['rgba(255,255,255,0.08)', 'rgba(255,255,255,0.03)']}
           style={styles.cardOverlay}
@@ -141,7 +98,7 @@ export default function ProfileHeader({
           </View>
         </LinearGradient>
       {/* Stats */}
-      <Animated.View style={[styles.statsContainer, animatedStats]}>
+      <Animated.View style={[styles.statsContainer,]}>
         {stats.map((item, index) => (
           <View key={item.label} style={styles.statCard}>
             <Text style={styles.value}>

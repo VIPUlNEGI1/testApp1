@@ -7,7 +7,13 @@ export default {
   brand: '#1D4ED8',
   brandLightI: '#328af5',
   brandLight: '#60A5FA',
+
+
+
+  //Batch colors
   blueBatch: '#2564eb2c',
+  redBatch: '#ef44442c',
+  
   // UI colors
   white: '#FFFFFF',
   lightGray: '#94A3B8',
@@ -19,6 +25,7 @@ export default {
   green: '#10B981',
   yellow: '#F59E0B',
   red: '#EF4444',
+
 
   // Gradient colors
   primaryGradient: ['#020617', '#020617', '#0A1A3A'],
@@ -40,7 +47,7 @@ export default {
   glowBottom: '#2744959a',
 
   // Status colors
-  success: '#10B981',
+  success: '#039b54',
   warning: '#F59E0B',
   error: '#EF4444',
   info: '#3B82F6',

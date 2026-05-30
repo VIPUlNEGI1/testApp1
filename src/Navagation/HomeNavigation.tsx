@@ -4,14 +4,12 @@ import React from 'react';
 import BottomTabs from './BottomTabs';
 import SearchScreen from '@/features/Main/SearchScreen/Searchscreen';
 import MyLabiry from '@/features/MyLabiry/MyLabiry';
+import NotificationScreen from '@/features/Main/NotificationScreen/NotificationScreen';
+import Profile from '@/features/Main/ProfileScreen/ProfileScreen';
+import QuizScreen from '@/features/QuizScreen/quizScreen';
+import { RootStackParamList } from '@/Types/types';
 
-type HomeStackParamList = {
-  BottomTabs: undefined;
-  SearchScreen: { courseId?: string };
-  MyLabiry: undefined;
-};
-
-const Stack = createStackNavigator<HomeStackParamList>();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default () => {
   return (
@@ -19,6 +17,9 @@ export default () => {
       <Stack.Screen name="BottomTabs" component={BottomTabs} />
       <Stack.Screen name="SearchScreen" component={SearchScreen} />
       <Stack.Screen name="MyLabiry" component={MyLabiry} />
+      <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="QuizScreen" component={QuizScreen} />
     </Stack.Navigator>
   );
 };

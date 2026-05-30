@@ -32,6 +32,10 @@ const SummaryCards: React.FC = memo(() => {
   const handleEnrolledPress = () => {
     navigation.navigate('MyLabiry');
   };
+  const handleStreakPress = () => {
+    navigation.navigate('Profile');
+  };
+ 
 
   return (
     <View style={styles.container}>
@@ -39,11 +43,11 @@ const SummaryCards: React.FC = memo(() => {
         title="Enrolled"
         value="4"
         icon={SVGByteCode.Book}
-        color="#EBF5FF"
+        color="#e6eef5"
         onPress={handleEnrolledPress}
       />
-      <SummaryCard title="Streak" value="5d" icon={SVGByteCode.Lightning} color="#FEF3C7" />
-      <SummaryCard title="Tests Done" value="3" icon={SVGByteCode.Video} color="#D1FAE5" />
+      <SummaryCard title="Streak" value="5d" icon={SVGByteCode.Lightning} color="#FEF3C7" onPress={handleStreakPress} />
+      <SummaryCard title="Tests Done" value="3" icon={SVGByteCode.Video} color="#D1FAE5" onPress={handleStreakPress} />
     </View>
   );
 });
@@ -56,6 +60,8 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
+    borderWidth: 1,
+    borderColor: Colors.white,
     backgroundColor: '#F3F4F6',
     borderRadius: 16,
     padding: 16,
@@ -65,12 +71,12 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: Colors.brand,
-    marginVertical: 8,
+    color: Colors.backgroundSecondary,
+    // marginVertical: 8,
   },
   title: {
     fontSize: 12,
-    color: Colors.darkGray,
+    color: Colors.lightGray,
     textAlign: 'center',
   },
 });

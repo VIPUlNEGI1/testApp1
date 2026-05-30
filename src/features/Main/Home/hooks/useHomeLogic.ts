@@ -46,12 +46,13 @@ export const useHomeLogic = () => {
   };
 
   const handleSearchPress = () => {
-    navigation.navigate({ name: 'SearchScreen' });
+    navigation.navigate({ name: 'SearchScreen', params: {} });
   };
 
   const handleCoursePress = (courseId: string) => {
     navigation.navigate({ name: 'SearchScreen', params: { courseId } });
   };
+ 
 
   return {
     searchQuery,
@@ -59,5 +60,6 @@ export const useHomeLogic = () => {
     handleSearch,
     handleSearchPress,
     handleCoursePress,
+  
   };
 };

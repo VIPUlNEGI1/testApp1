@@ -40,7 +40,7 @@ const QuickSubjects: React.FC = memo(() => {
             style={[styles.subjectCard, { backgroundColor: subject.color }]}
           >
             <View style={styles.iconContainer}>
-              <SvgFromXml xml={subject.icon} width={32} height={32} />
+              <SvgFromXml xml={subject.icon} width={20} height={20} />
             </View>
           </TouchableOpacity>
           <AppSeparator size={8} />
@@ -82,24 +82,23 @@ const styles = StyleSheet.create({
   subjectCard: {
     alignItems: 'center',
     backgroundColor: Colors.backgroundSecondary,
-    borderRadius: 12,
+    borderRadius: 20,
     padding: 12,
     marginRight: 12,
-    minWidth: 80,
+    minWidth: 20,
   },
   iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    backgroundColor: Colors.white,
+    width: 38,
+    height: 30,
+    borderRadius: 33,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
   },
   subjectName: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
-    color: Colors.background,
+    color: Colors.darkGray,
     textAlign: 'center',
   },
 });

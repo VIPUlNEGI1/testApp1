@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, View, ScrollView, StatusBar } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import crashlytics from '@react-native-firebase/crashlytics';
 import Colors from '@/Theme/Colors';
 import { useHomeLogic } from './hooks/useHomeLogic';
 import HomeHeader from './components/HomeHeader';
@@ -9,13 +11,22 @@ import QuickSubjects from './components/QuickSubjects';
 import LiveClassCard from './components/LiveClassCard';
 import ContinueLearning from './components/ContinueLearning';
 import AppSeparator from '@/Component/AppSeparator/AppSeparator';
+import Button from '@/Component/Button';
 import { HomeSkeleton } from '@/skeleton';
 
 export default function HomeScreen() {
+  
   const insets = useSafeAreaInsets();
-  const { searchQuery, loading, handleSearch, handleSearchPress } = useHomeLogic();
+  const navigation = useNavigation<any>();
+  const { searchQuery, loading, handleSearch, handleSearchPress, handleCoursePress } = useHomeLogic();
 
- 
+const crashApp = () => {
+  console.log("🔥 Crash Button Clicked");
+
+  crashlytics().log('Crash button pressed');
+
+  crashlytics().crash();
+};
   if (loading) {
     return (
       <View style={styles.container}>
@@ -35,8 +46,8 @@ export default function HomeScreen() {
         searchQuery={searchQuery}
         onSearchChange={handleSearch}
         onSearchPress={handleSearchPress}
-        onNotificationPress={() => console.log('Notification pressed')}
-        onProfilePress={() => console.log('Profile pressed')}
+        onNotificationPress={() => navigation.navigate('NotificationScreen')}
+        onProfilePress={() => navigation.navigate('Profile')}
         paddingTop={insets.top}
       />
        <View style={styles.container1}> 
@@ -46,6 +57,15 @@ export default function HomeScreen() {
         <LiveClassCard />
         <AppSeparator size={16} />
         <ContinueLearning />
+        <AppSeparator size={24} />
+        <Button
+          title="Crash Test"
+          onPress={crashApp}
+          variant="outline"
+          color={Colors.error}
+          textColor={Colors.error}
+          style={styles.crashButton}
+        />
         <AppSeparator size={40} />
         </View>
       </ScrollView>
@@ -81,5 +101,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: Colors.textMuted,
     textAlign: 'center',
+  },
+  crashButton: {
+    marginTop: 8,
+    borderColor: Colors.error,
   },
 });

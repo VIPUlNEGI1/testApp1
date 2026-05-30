@@ -3,7 +3,7 @@ import SearchScreen from '@/features/Main/SearchScreen/Searchscreen';
 import ProfileScreen from '@/features/Main/ProfileScreen/ProfileScreen';
 import MyLabiry from '@/features/MyLabiry/MyLabiry';
 import SVGByteCode from '@/Helpers/SVGByteCode';
-
+import QuizScreen from '@/features/QuizScreen/quizScreen';
 export type TabName = 'Home' | 'Search' | 'Saved' | 'CreateJob' | 'Profile';
 export type SVGIconName = keyof typeof SVGByteCode;
 
@@ -14,6 +14,7 @@ export interface TabConfig {
   activeIcon: SVGIconName;
   inactiveIcon: SVGIconName;
   isSpecial?: boolean;
+  params?: any;
 }
 
 export const BOTTOM_TABS: TabConfig[] = [
@@ -33,7 +34,7 @@ export const BOTTOM_TABS: TabConfig[] = [
   },
   {
     name: 'CreateJob',
-    component: MyLabiry,
+    component: QuizScreen,
     label: 'Create Job',
     activeIcon: 'BlueStar',
     inactiveIcon: 'Star',

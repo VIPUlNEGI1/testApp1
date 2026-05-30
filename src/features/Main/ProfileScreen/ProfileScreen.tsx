@@ -17,25 +17,18 @@ export default function ProfileScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
       >
-       <ProfileHeader
+  <ProfileHeader
   name="Vipul Negi"
   email="vipul@gmail.com"
   plan="Premium Member"
   initials="VN"
 />
-      <View  style={[styles.container, { paddingTop: insets.top + scale(18) }]}> 
-        <AppSeparator size={20} />
-
-        {/* <ProfileStats /> */}
-
-        <AppSeparator size={20} />
-
+      <View  style={[styles.container]}> 
+             <AppSeparator size={20} />
         <UpgradeBanner />
-
         <AppSeparator size={20} />
-
         <ProfileMenuList />
-    </View>
+      </View>
       </ScrollView>
     </View>
   );
@@ -44,10 +37,8 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    // backgroundColor: Colors.background,
   },
   container: {
     paddingHorizontal: scale(10),
-    paddingBottom: scale(30),
   },
 });

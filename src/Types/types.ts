@@ -6,6 +6,10 @@ export type RootStackParamList = {
   loginScreen: undefined;
   SearchScreen: { courseId?: string };
   MyLabiry: undefined;
+  Profile: undefined;
+  NotificationScreen: undefined;
+  BottomTabs: undefined;
+  QuizScreen: undefined;
 };
 
 export type AuthStackParamList = {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "845520381591",
+    "project_id": "comnexeduhub",
+    "storage_bucket": "comnexeduhub.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:845520381591:android:177f7da3b07f13a602ebd2",
+        "android_client_info": {
+          "package_name": "com.nexeduhub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuy__STbQKvk1qs_DU24NpF71XZp50VvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
