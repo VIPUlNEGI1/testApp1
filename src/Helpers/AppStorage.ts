@@ -15,7 +15,6 @@ export const zustandStorage = {
 export const AppStorageKeys = {
   TOKEN: '@token',
   USER_ID: '@user_id',
-  PHONE: '@phone',
   KYC_STATUS: '@kyc_status',
   FCM_TOKEN: '@fcm_token',
   LOCATION_PERMISSION: '@location_permission',

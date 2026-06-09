@@ -68,17 +68,17 @@ const moderateScale = (size: number, factor = 0.5) => size + (scale(size) - size
 const isTab = isTablet();
 
 export {
+  isAndroidNouch,
+  isIPhoneX,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+  isTab,
   font,
   getStatusBarHeight,
   heightPx,
-  isAndroidNouch,
-  isIPhoneX,
   isIPhoneXSeries,
-  isTab,
   moderateScale,
   scale,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
   verticalScale,
   widthPx,
 };

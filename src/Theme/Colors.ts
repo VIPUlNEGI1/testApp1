@@ -1,54 +1,182 @@
 export default {
-  // Background colors
-  background: '#020617',
-  backgroundSecondary: '#0A1A3A',
-  transparent: 'transparent',
-  // Brand colors
-  brand: '#1D4ED8',
-  brandLightI: '#328af5',
-  brandLight: '#60A5FA',
-
-
-
-  //Batch colors
-  blueBatch: '#2564eb2c',
-  redBatch: '#ef44442c',
+  // Primary colors
+  primary: '#6A1B9A',
+  primaryLight: '#9C4DCC',
+  primaryDark: '#4A148C',
   
-  // UI colors
-  white: '#FFFFFF',
-  lightGray: '#94A3B8',
-  mediumGray: '#475569cf',
-  darkGray: '#1E293B',
-
-  // Accent colors
-  blue: '#2563EB',
-  green: '#10B981',
-  yellow: '#F59E0B',
-  red: '#EF4444',
-
-
-  // Gradient colors
-  primaryGradient: ['#020617', '#020617', '#0A1A3A'],
-  iconGradient: ['#1D4ED8', '#2563EB'],
-  buttonGradient: ['#1D4ED8', '#2563EB'],
-
-  // Shadow colors
-  shadow: '#3B82F6',
-  shadowBlue: '#2563EB',
-
-  // Text colors
-  textPrimary: '#FFFFFF',
-  textSecondary: '#E5E7EB',
-  textMuted: '#94A3B8',
-  textShadow: '#2563EB',
-
-  // Glow colors
-  glowTop: '#2564eb68',
-  glowBottom: '#2744959a',
-
+  // Secondary colors
+  secondary: '#7B1FA2',
+  accent: '#AB47BC',
+  
   // Status colors
-  success: '#039b54',
-  warning: '#F59E0B',
-  error: '#EF4444',
-  info: '#3B82F6',
+  success: '#4CAF50',
+  successLight: '#C8E6C9',
+  successDark: '#2E7D32',
+  
+  error: '#F44336',
+  errorLight: '#FFCDD2',
+  errorDark: '#C62828',
+  
+  warning: '#FF9800',
+  warningLight: '#FFE0B2',
+  warningDark: '#E65100',
+  
+  // Neutral colors
+  white: '#FFFFFF',
+  black: '#000000',
+  
+  gray: {
+    50: '#FAFAFA',
+    100: '#F5F5F5',
+    200: '#EEEEEE',
+    300: '#E0E0E0',
+    400: '#BDBDBD',
+    500: '#9E9E9E',
+    600: '#757575',
+    700: '#616161',
+    800: '#424242',
+    900: '#212121',
+  },
+  
+  // Background colors
+  background: '#F5F5F5',
+  backgroundSecondary: '#FFFFFF',
+  cardBackground: '#FFFFFF',
+  
+  // Text colors
+  text: '#212121',
+  textSecondary: '#757575',
+  textLight: '#9E9E9E',
+  
+  // Border colors
+  border: '#E0E0E0',
+  borderLight: '#EEEEEE',
+  
+  // Gradient colors
+  primaryGradient: ['#6A1B9A', '#7B1FA2', '#AB47BC'],
+  
+  // Calendar specific colors
+  calendarPresent: '#C8E6C9',
+  calendarAbsent: '#FFCDD2',
+  calendarDefault: '#E0E0E0',
+  
+  // Navigation
+  tabBarActive: '#6A1B9A',
+  tabBarInactive: '#9E9E9E',
+
+  // HomeScreen specific colors
+  homeScreen: {
+    primary: '#7B17D4',
+    primaryGradient1: '#7B17D4',
+    primaryGradient2: '#FF4D9D',
+    white: '#FFFFFF',
+    text: '#111111',
+    success: '#4CAF50',
+    background: '#F3ECF8',
+    cardBackground: '#F7F1FC',
+    contentBackground: '#FFFFFF',
+    cardTitle: '#222222',
+    cardText: '#555555',
+    locationTitle: '#C96B1A',
+    addressText: '#666666',
+    checkOutButton: '#7B17D4',
+    timeLabel: '#666666',
+    checkInIcon: '#7B17D4',
+    checkOutIcon: '#FF3B30',
+    workingHoursIcon: '#7B17D4',
+    logo: '#7B17D4',
+    menu: '#7B17D4',
+    dutyStatusSuccess: '#4CAF50',
+    backgroundCircle1: '#fdfdfd',
+    backgroundCircle2: '#fffdfd',
+    backgroundCircle3: '#ffffff',
+    backgroundCircle4: '#ffffff',
+    decorativeBgCircles: [
+      { color: '#fdfdfd', position: { top: 130, left: -60 } },
+      { color: '#fffdfd', position: { top: 135, left: -20 } },
+      { color: '#ffffff', position: { top: 160, left: 60 } },
+      { color: '#ffffff', position: { top: 200, left: 100 } },
+    ],
+  },
+
+  // CompaniesScreen specific colors
+  companiesScreen: {
+    primary: '#7B1FD3',
+    background: '#EFEFEF',
+    cardBackground: '#FFFFFF',
+    text: '#333333',
+    textSecondary: '#555555',
+    textTertiary: '#444444',
+    border: '#F3E7FF',
+    searchBackground: '#FFFFFF',
+    placeholder: '#999999',
+    lightBackground: '#F4F4F4',
+    contactText: '#7B1FD3',
+    logoBackground: '#F3E7FF',
+    logoText: '#7B1FD3',
+    companyName: '#333333',
+    address: '#444444',
+    personName: '#555555',
+    companyTitle: '#333333',
+    addButtonBackground: '#7B1FD3',
+    addButtonText: '#FFFFFF',
+    statusBarBackground: '#F4F4F4',
+    errorText: '#FF0000',
+    errorLinkText: '#7B1FD3',
+    emptyStateText: '#333333',
+    emptyStateSubText: '#666666',
+  },
+
+  // AttendanceScreen specific colors
+  attendanceScreen: {
+    primary: '#7B17D4',
+    background: '#F7F8FC',
+    cardBackground: '#FFFFFF',
+    text: '#000000',
+    textSecondary: '#4B5563',
+    textTertiary: '#6B7280',
+    textTertiary2: '#666666',
+    title: '#000000',
+    infoText: '#4B5563',
+    calendarHeaderBackground: '#F5F3FF',
+    monthButtonBackground: '#FFFFFF',
+    monthButtonText: '#7B17D4',
+    monthHeaderTitle: '#111827',
+    weekdayBackground: '#F3F4F6',
+    weekdayText: '#6B7280',
+    sundayBackground: '#FEE2E2',
+    sundayText: '#DC2626',
+    dayText: '#111827',
+    daySelectedBackground: '#7B17D4',
+    daySelectedText: '#FFFFFF',
+    dayPresentBackground: '#DCFCE7',
+    dayAbsentBackground: '#FEE2E2',
+    dayDisabledText: '#9CA3AF',
+    presentColor: '#22C55E',
+    presentColorDark: '#15803D',
+    absentColor: '#EF4444',
+    absentColorDark: '#B91C1C',
+    selectedColor: '#7B17D4',
+    legendPresentDot: '#22C55E',
+    legendAbsentDot: '#EF4444',
+    legendSelectedDot: '#7B17D4',
+    modalBackground: 'rgba(0, 0, 0, 0.35)',
+    modalContent: '#FFFFFF',
+    modalHandle: '#E5E7EB',
+    modalTitle: '#7B17D4',
+    modalSubtitle: '#6B7280',
+    closeButtonBackground: '#F3F4F6',
+    closeButtonText: '#666666',
+    summaryCardBackground: '#F8FAFC',
+    summaryLabel: '#6B7280',
+    summaryValue: '#111827',
+    statusPillPresentBackground: '#DCFCE7',
+    statusPillAbsentBackground: '#FEE2E2',
+    statusText: '#111827',
+    detailRowLabel: '#666666',
+    detailRowValue: '#0026be',
+    borderColor: '#EAEAEA',
+    shadowColor: '#000000',
+    errorText: '#B91C1C',
+  },
 };

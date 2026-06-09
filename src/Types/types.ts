@@ -10,6 +10,9 @@ export type RootStackParamList = {
   NotificationScreen: undefined;
   BottomTabs: undefined;
   QuizScreen: undefined;
+  AttendanceScreen: undefined;
+  CompaniesScreen: undefined;
+  NewHomeScreen: undefined;
 };
 
 export type AuthStackParamList = {
