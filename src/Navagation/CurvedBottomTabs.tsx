@@ -1,71 +1,84 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { SvgFromXml } from 'react-native-svg';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
-import { BOTTOM_TABS } from './BottomTabConfig';
+import * as BottomTabConfig from './BottomTabConfig';
 import SVGByteCode from '@/Helpers/SVGByteCode';
 import { scale } from '@/Helpers/Responsive';
 import Colors from '@/Theme/Colors';
 
-export default function CurvedBottomTabs({ state, descriptors, navigation }: BottomTabBarProps) {
-  const insets = useSafeAreaInsets();
+const CurvedBottomTabs = ({
+  state,
+  descriptors,
+  navigation,
+}: BottomTabBarProps) => {
+  const { bottom } = useSafeAreaInsets();
 
-  const renderIcon = (routeName: string, focused: boolean) => {
-    const tabConfig = BOTTOM_TABS.find(t => t.name === routeName);
-    const iconKey = focused ? tabConfig?.activeIcon : tabConfig?.inactiveIcon;
-    const iconXml = iconKey ? SVGByteCode[iconKey] : undefined;
 
-    if (!iconXml) {
-      return null;
-    }
-
-    return <SvgFromXml xml={iconXml} width={scale(24)} height={scale(24)} />;
-  };
+  
+  const BOTTOM_TABS: any = (BottomTabConfig as any).BOTTOM_TABS ?? (BottomTabConfig as any).default ?? BottomTabConfig;
 
   return (
-    <View style={[styles.curvedContainer, { paddingBottom: insets.bottom + scale(8) }]}> 
-      <View style={styles.curvedBar}>
-        {state.routes.map((route: any, index: number) => {
+    <View style={[styles.container, { paddingBottom: bottom + scale(8) }]}>
+      <View style={styles.tabBar}>
+        {state.routes.map((route, index) => {
           const focused = state.index === index;
-          const tabConfig = BOTTOM_TABS.find(t => t.name === route.name);
 
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-            if (!focused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
-          };
+          const tab = BOTTOM_TABS.find((item: any) => item.name === route.name);
+
+          if (!tab) return null;
+
+          const iconKey = focused ? tab.activeIcon : tab.inactiveIcon;
+          const iconXml =
+            SVGByteCode[iconKey as keyof typeof SVGByteCode];
 
           return (
             <TouchableOpacity
               key={route.key}
               activeOpacity={0.8}
+              style={[styles.tab, focused && styles.activeTab]}
               accessibilityRole="button"
               accessibilityState={focused ? { selected: true } : {}}
-              accessibilityLabel={descriptors[route.key].options.tabBarAccessibilityLabel}
-              onPress={onPress}
-              style={[styles.tabItem, focused && styles.tabItemActive]}
+              accessibilityLabel={
+                descriptors[route.key]?.options.tabBarAccessibilityLabel
+              }
+              onPress={() => {
+                const event = navigation.emit({
+                  type: 'tabPress',
+                  target: route.key,
+                  canPreventDefault: true,
+                });
+
+                if (!focused && !event.defaultPrevented) {
+                  navigation.navigate(route.name as never);
+                }
+              }}
             >
-              <View style={styles.tabContent}>
-                {renderIcon(route.name, focused)}
-                <Text style={[styles.tabLabel, focused && styles.tabLabelActive]}>{tabConfig?.label}</Text>
-              </View>
+              {iconXml && (
+                <SvgFromXml
+                  xml={iconXml}
+                  width={scale(24)}
+                  height={scale(24)}
+                />
+              )}
+
+              <Text style={[styles.label, focused && styles.activeLabel]}>
+                {tab.label}
+              </Text>
             </TouchableOpacity>
           );
         })}
       </View>
     </View>
   );
-}
+};
+
+export default CurvedBottomTabs;
 
 const styles = StyleSheet.create({
-  curvedContainer: {
+  container: {
     backgroundColor: Colors.secondary,
     borderTopLeftRadius: scale(30),
     borderTopRightRadius: scale(30),
@@ -73,40 +86,40 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.08,
     shadowRadius: 10,
-    shadowOffset: { width: 0, height: -4 },
+    shadowOffset: {
+      width: 0,
+      height: -4,
+    },
     elevation: 10,
-    position: 'relative',
-    bottom: 0,
-    left: 0,
-    right: 0,
   },
-  curvedBar: {
+
+  tabBar: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: scale(16),
   },
-  tabItem: {
+
+  tab: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: scale(10),
     borderRadius: scale(18),
   },
-  tabItemActive: {
-    backgroundColor: Colors.gray[50],
+
+  activeTab: {
+    backgroundColor: Colors.primaryDark,
   },
-  tabContent: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabLabel: {
+
+  label: {
     marginTop: scale(4),
     fontSize: scale(10),
-    color:'#ffffff',
     fontWeight: '600',
+    color: '#fff',
   },
-  tabLabelActive: {
-    color: Colors.tabBarActive,
+
+  activeLabel: {
+    color: Colors.success,
   },
 });

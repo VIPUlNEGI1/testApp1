@@ -1,32 +1,15 @@
 import { createMMKV } from 'react-native-mmkv';
 
-const storage = createMMKV({ id: 'NexEduHub' });
+export const storage = createMMKV({
+  id: 'NexEduHub',
+});
 
-/* ---------------- ZUSTAND STORAGE ---------------- */
-
-export const zustandStorage = {
-  setItem: (key: string, value: string) => storage.set(key, value),
-  getItem: (key: string) => storage.getString(key) ?? null,
-  removeItem: (key: string) => storage.remove(key),
-};
-
-/* ---------------- STORAGE KEYS ---------------- */
-
-export const AppStorageKeys = {
+export const STORAGE_KEYS = {
   TOKEN: '@token',
   USER_ID: '@user_id',
   KYC_STATUS: '@kyc_status',
   FCM_TOKEN: '@fcm_token',
   LOCATION_PERMISSION: '@location_permission',
-};
-
-/* ---------------- TYPES ---------------- */
-
-export type AddressData = {
-  type: 'Point';
-  coordinates: [number, number];
-  city: string;
-  address: string;
-};
-
-export default storage;
+} as const;
+//    how to get the value of token from storage
+// const token = storage.getString(STORAGE_KEYS.TOKEN);

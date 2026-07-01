@@ -5,7 +5,7 @@ import Colors from './Colors';
 export default StyleSheet.create({
   centerFlex: {
     alignItems: 'center',
-    backgroundColor: Colors.primaryGradient[0],
+    backgroundColor: Colors.primary,
     flex: 1,
     justifyContent: 'center',
   },

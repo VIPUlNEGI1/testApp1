@@ -1,9 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import type { RootStackParamList } from '@/Types/types';
+import type { AuthStackParamList} from '@/Types/types';
 import loginScreen from '@/features/Auth/Login/loginScreen';
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<AuthStackParamList>();
 
 export default () => {
   return (

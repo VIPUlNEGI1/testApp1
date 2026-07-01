@@ -12,13 +12,12 @@ export default function AppNavigation() {
   const initialRouteName = 'Home';
 
   return (
-    <SafeAreaProvider style={{ flex: 1 }}>
+    <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
           key={initialRouteName}
           screenOptions={{ headerShown: false }}
-          initialRouteName={initialRouteName as keyof RootStackParamList}
-        >
+          initialRouteName={initialRouteName}>
           <Stack.Screen name="Home" component={HomeNavigation} />
           <Stack.Screen name="Auth" component={AuthNavigation} />
         </Stack.Navigator>
