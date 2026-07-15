@@ -2,9 +2,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
 import BottomTabs from './BottomTabs';
-import { RootStackParamList } from '@/Types/types';
+import type { HomeStackParamList } from '@/Types/types';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<HomeStackParamList>();
 
 export default () => {
   return (

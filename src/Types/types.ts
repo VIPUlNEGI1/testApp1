@@ -4,6 +4,10 @@ export type RootStackParamList = {
   HomeMain: undefined;
 };
 
+export type HomeStackParamList = {
+  BottomTabs: undefined;
+};
+
 export type AuthStackParamList = {
   Auth: undefined;
   onboardingScreen: undefined;
